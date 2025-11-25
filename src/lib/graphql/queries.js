@@ -47,6 +47,20 @@ export const companyByIdQuery = gql`
   ${companyDetailFragment}
 `;
 
+export const jobsQuery = gql`
+  query {
+    jobs {
+      id
+      title
+      date
+      company {
+        id
+        name
+      }
+    }
+  }
+`;
+
 const endpoint = 'http://localhost:9000/graphql';
 
 // const client = new GraphQLClient(endpoint, {
@@ -95,24 +109,12 @@ export const getJob = async (id) => {
   return data.job;
 };
 
-export const getJobs = async () => {
-  const query = gql`
-    query {
-      jobs {
-        id
-        title
-        date
-        company {
-          id
-          name
-        }
-      }
-    }
-  `;
-  // const { jobs } = await client.request(query);
-  const { data } = await apolloClient.query({
-    query,
-    fetchPolicy: 'network-only',
-  });
-  return data.jobs;
-};
+// export const getJobs = async () => {
+
+//   // const { jobs } = await client.request(query);
+//   const { data } = await apolloClient.query({
+//     query,
+//     fetchPolicy: 'network-only',
+//   });
+//   return data.jobs;
+// };
