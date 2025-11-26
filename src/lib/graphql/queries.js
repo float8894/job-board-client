@@ -63,13 +63,6 @@ export const jobsQuery = gql`
 
 const endpoint = 'http://localhost:9000/graphql';
 
-// const client = new GraphQLClient(endpoint, {
-//   headers: () => {
-//     const accessToken = getAccessToken();
-//     if (accessToken) return { Authorization: `Bearer ${accessToken}` };
-//     return {};
-//   },
-// });
 
 const httpLink = new HttpLink({ uri: endpoint });
 
@@ -89,14 +82,7 @@ const authLink = new SetContextLink(({ headers }) => {
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
-  // defaultOptions: {
-  //   query: {
-  //     fetchPolicy: 'network-only',
-  //   },
-  //   watchQuery: {
-  //     fetchPolicy: 'network-only',
-  //   },
-  // },
+
 });
 
 export const getJob = async (id) => {
@@ -108,13 +94,3 @@ export const getJob = async (id) => {
 
   return data.job;
 };
-
-// export const getJobs = async () => {
-
-//   // const { jobs } = await client.request(query);
-//   const { data } = await apolloClient.query({
-//     query,
-//     fetchPolicy: 'network-only',
-//   });
-//   return data.jobs;
-// };
