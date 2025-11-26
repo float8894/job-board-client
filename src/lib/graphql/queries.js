@@ -48,21 +48,23 @@ export const companyByIdQuery = gql`
 `;
 
 export const jobsQuery = gql`
-  query {
-    jobs {
-      id
-      title
-      date
-      company {
+  query ($limit: Int, $offset: Int) {
+    jobs(limit: $limit, offset: $offset) {
+      items {
         id
-        name
+        title
+        date
+        company {
+          id
+          name
+        }
       }
+      totalCount
     }
   }
 `;
 
 const endpoint = 'http://localhost:9000/graphql';
-
 
 const httpLink = new HttpLink({ uri: endpoint });
 
@@ -82,7 +84,6 @@ const authLink = new SetContextLink(({ headers }) => {
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
-
 });
 
 export const getJob = async (id) => {
